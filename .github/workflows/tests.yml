@@ -9,12 +9,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, macOS-latest]
     runs-on: ${{ matrix.os }}
-    steps:
-      - name: Configure Git user
-        uses: Homebrew/actions/git-user-config@master
-        with:
-          username: BrewTestBot
-          
+    steps:        
       - name: Set up Homebrew
         id: set-up-homebrew
         uses: Homebrew/actions/setup-homebrew@master
