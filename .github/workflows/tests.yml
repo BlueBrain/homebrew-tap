@@ -10,15 +10,17 @@ jobs:
         os: [ubuntu-latest, macOS-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      - name: Set up GitHub config
-        run: |
-          # git config --global user.name github-actions
-          # git config --global user.email github-actions@github.com
-          git config --global url.ssh://git@github.com/.insteadOf https://github.com/
+      - name: Configure git
+        uses: Homebrew/actions/git-user-config@master
+        with:
+          # Defaults to $GITHUB_ACTOR if not specified
+          username: BrewTestBot
 
       - name: Set up Homebrew
         id: set-up-homebrew
         uses: Homebrew/actions/setup-homebrew@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Cache Homebrew Bundler RubyGems
         id: cache
