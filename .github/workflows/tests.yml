@@ -14,6 +14,7 @@ jobs:
         run: |
           git config --global user.name github-actions
           git config --global user.email github-actions@github.com
+          git config --global --add url."git@github.com:".insteadOf "https://github.com/"
 
       - name: Set up Homebrew
         id: set-up-homebrew
