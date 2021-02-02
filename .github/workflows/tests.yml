@@ -10,6 +10,11 @@ jobs:
         os: [ubuntu-latest, macOS-latest]
     runs-on: ${{ matrix.os }}
     steps:
+      - name: Set up GitHub config
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+
       - name: Set up Homebrew
         id: set-up-homebrew
         uses: Homebrew/actions/setup-homebrew@master
