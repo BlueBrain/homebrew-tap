@@ -10,12 +10,6 @@ class Petsc64 < Formula
     regex(/href=.*?petsc-lite[._-]v?(\d+(?:\.\d+)+)\.t/i)
   end
 
-  bottle do
-    root_url "https://github.com/castigli/homebrew-tap/releases/download/petsc-64-3.14.2"
-    sha256 "eff16e1bbc07bc23b3bf549f0655aa32911dd392085787919ec977aeb30c1818" => :catalina
-    sha256 "119abfe74070acb411f8c73125342239e462d2311acfaf25b3f98187641701d4" => :x86_64_linux
-  end
-
   depends_on "hdf5"
   depends_on "hwloc"
   depends_on "metis"
