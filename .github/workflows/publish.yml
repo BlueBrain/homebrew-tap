@@ -8,11 +8,6 @@ jobs:
     if: contains(github.event.pull_request.labels.*.name, 'pr-pull')
     runs-on: ubuntu-latest
     steps:
-      - name: Extract branch name
-        shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-        id: extract_branch
-
       - name: Set up Homebrew
         uses: Homebrew/actions/setup-homebrew@master
 
@@ -29,10 +24,10 @@ jobs:
         uses: Homebrew/actions/git-try-push@master
         with:
           token: ${{ github.token }}
-          branch: ${{ steps.extract_branch.outputs.branch }}
+          branch: main
 
-      # - name: Delete branch
-      #   if: github.event.pull_request.head.repo.fork == false
-      #   env:
-      #     BRANCH: ${{ github.event.pull_request.head.ref }}
-      #   run: git push --delete origin $BRANCH
+      - name: Delete branch
+        if: github.event.pull_request.head.repo.fork == false
+        env:
+          BRANCH: ${{ github.event.pull_request.head.ref }}
+        run: git push --delete origin $BRANCH
