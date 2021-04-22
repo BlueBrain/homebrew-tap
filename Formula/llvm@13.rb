@@ -1,4 +1,4 @@
-class Llvmv13 < Formula
+class LlvmAT13 < Formula
   desc "Next-gen compiler infrastructure (13.0a from April 2021 trunk)"
   homepage "https://llvm.org/"
   url "https://github.com/pramodk/llvm-nightly/releases/download/13.0a/llvm-project-13.0a.src.tar.xz"
@@ -20,7 +20,7 @@ class Llvmv13 < Formula
     end
   end
 
-  keg_only :provided_by_macos
+  keg_only :versioned_formula
 
   # https://llvm.org/docs/GettingStarted.html#requirement
   # We intentionally use Make instead of Ninja.
