@@ -1,19 +1,13 @@
 class Petsc64 < Formula
   desc "Portable, Extensible Toolkit for Scientific Computation (real, 64 bit indeces)"
   homepage "https://www.mcs.anl.gov/petsc/"
-  url "https://ftp.mcs.anl.gov/pub/petsc/release-snapshots/petsc-lite-3.14.4.tar.gz"
-  sha256 "b030969816e02c251a6d010c07a90b69ade44932f9ddfac3090ff5e95ab97d5c"
+  url "https://ftp.mcs.anl.gov/pub/petsc/release-snapshots/petsc-lite-3.15.0.tar.gz"
+  sha256 "ac46db6bfcaaec8cd28335231076815bd5438f401a4a05e33736b4f9ff12e59a"
   license "BSD-2-Clause"
 
   livecheck do
-    url "https://www.mcs.anl.gov/petsc/download/index.html"
+    url "https://ftp.mcs.anl.gov/pub/petsc/release-snapshots/"
     regex(/href=.*?petsc-lite[._-]v?(\d+(?:\.\d+)+)\.t/i)
-  end
-
-  bottle do
-    root_url "https://github.com/BlueBrain/homebrew-tap/releases/download/petsc-64-3.14.4"
-    sha256 catalina:     "15ad08b2f26fdb786c7e9bd3c623c37c96b2d7f5c797d7b7b7f8dbbc99578bbc"
-    sha256 x86_64_linux: "382fd33b203accabbb4fa4f66daf28a2107e1f2593d6ef7ca25f1300ce49e184"
   end
 
   depends_on "hdf5"
@@ -43,21 +37,26 @@ class Petsc64 < Formula
 
     # Avoid references to Homebrew shims
     rm_f lib/"petsc/conf/configure-hash"
-    if OS.mac?
+
+    on_macos do
       inreplace lib/"petsc/conf/petscvariables", "#{HOMEBREW_SHIMS_PATH}/mac/super/", ""
-    elsif OS.linux?
-      inreplace lib/"petsc/conf/petscvariables", "#{HOMEBREW_SHIMS_PATH}/linux/super/", ""
+    end
+
+    on_linux do
+      if File.readlines("#{lib}/petsc/conf/petscvariables").grep(/#{HOMEBREW_SHIMS_PATH}/o).any?
+        inreplace lib/"petsc/conf/petscvariables", "#{HOMEBREW_SHIMS_PATH}/linux/super/", ""
+      end
     end
   end
 
   test do
-    test_case = "#{share}/petsc/examples/src/ksp/ksp/tutorials/ex1.c"
+    test_case = "#{pkgshare}/examples/src/ksp/ksp/tutorials/ex1.c"
     system "mpicc", test_case, "-I#{include}", "-L#{lib}", "-lpetsc", "-o", "test"
     output = shell_output("./test")
     # This PETSc example prints several lines of output. The last line contains
     # an error norm, expected to be small.
     line = output.lines.last
-    assert_match /^Norm of error .+, Iterations/, line, "Unexpected output format"
+    assert_match(/^Norm of error .+, Iterations/, line, "Unexpected output format")
     error = line.split[3].to_f
     assert (error >= 0.0 && error < 1.0e-13), "Error norm too large"
   end
