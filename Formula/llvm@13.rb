@@ -27,8 +27,8 @@ class LlvmAT13 < Formula
   # See: Homebrew/homebrew-core/issues/35513
   depends_on "cmake" => :build
   depends_on "swig" => :build
-  depends_on "python@3.9"
   depends_on "libomp" => :test
+  depends_on "python@3.9"ß
 
   uses_from_macos "libedit"
   uses_from_macos "libffi", since: :catalina
