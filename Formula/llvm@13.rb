@@ -28,7 +28,7 @@ class LlvmAT13 < Formula
   depends_on "cmake" => :build
   depends_on "swig" => :build
   depends_on "libomp" => :test
-  depends_on "python@3.9"ß
+  depends_on "python@3.9"
 
   uses_from_macos "libedit"
   uses_from_macos "libffi", since: :catalina
