@@ -10,6 +10,11 @@ class Petsc64 < Formula
     regex(/href=.*?petsc-lite[._-]v?(\d+(?:\.\d+)+)\.t/i)
   end
 
+  bottle do
+    root_url "https://github.com/BlueBrain/homebrew-tap/releases/download/petsc-64-3.16.3"
+    sha256 big_sur: "cbe6c3a7093bd2c236ae2b0e122b33263d852b880191d6e028c56d77a6ef66ee"
+  end
+
   depends_on "hdf5"
   depends_on "hwloc"
   depends_on "metis"
